@@ -1,15 +1,15 @@
 import sys
 import requests
 
-if len(sys.argv) != 2:
-    print("You need to put only two indications (the file name and the url")
+if len(sys.argv) == 1:
+    print("You need to put only two or more indications (the file name and the urls)")
     sys.exit(1)
 
 def output(message, file):
     print(message)
     file.write(message + "\n")
     
-archivo = open("request.txt", "a")
+archivo = open("requests.txt", "a")
 
 ERRORES_COMUNES = {
     200 : "Connected to the host",
@@ -18,19 +18,21 @@ ERRORES_COMUNES = {
 
 }
 
-url = sys.argv[1]
-
-try: 
-    r = requests.get(url, timeout=5)
-    mensaje = ERRORES_COMUNES[r.status_code]
-    output(f"{url} + { mensaje}", archivo)
+urls = sys.argv[1:]       
+        
+        
+for i in urls:    
+    try:    
+        r = requests.get(i, timeout=5)
+        mensaje = ERRORES_COMUNES[r.status_code] #PROVIDED THAT r.status_code != the errors on ERRORES_COMUNES.
+        output(f"{i} + {mensaje}", archivo)
     
-except requests.exceptions.Timeout:
-    output(f"{url} Timeout", archivo)
-except requests.exceptions.ConnectionError:
-    output(f"{url} ConnectionError", archivo)
-except requests.RequestException:
-    output(f"{url} Request Exception", archivo)
+    except requests.exceptions.Timeout:
+        output(f"{i} Timeout", archivo)
+    except requests.exceptions.ConnectionError:
+        output(f"{i} ConnectionError", archivo)
+    except requests.RequestException:
+        output(f"{i} Request Exception", archivo)
     
 
 archivo.close()
