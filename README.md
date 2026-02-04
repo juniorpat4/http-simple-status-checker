@@ -1,5 +1,5 @@
 ```md
-# HTTP Simple Status Checker v0.1
+# HTTP Simple Status Checker v0.2
 
 A short python script that performs an HTTP request to a url and shows its status (200, 403, 404), saving the results in a txt file.
 
@@ -18,3 +18,4 @@ Install requests if you don't have:
 
 ```bash
 pip install requests
+
